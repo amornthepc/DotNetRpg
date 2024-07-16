@@ -27,5 +27,12 @@ namespace DotNetRpg.Controllers
         {
             return Ok(characters.FirstOrDefault(c => c.Id == id));
         }
+
+        [HttpPost]
+        public ActionResult<List<Character>> AddCharacter(Character character)
+        {
+            characters.Add(character);
+            return Ok(characters);
+        }
     }
 }
