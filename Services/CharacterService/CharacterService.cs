@@ -45,7 +45,6 @@ namespace DotNetRpg.Services.CharacterService
         public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
         {
             ServiceResponse<List<GetCharacterDto>> response = new ServiceResponse<List<GetCharacterDto>>();
-
             try
             {
                 Character character = await _context.Characters
