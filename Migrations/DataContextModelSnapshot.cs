@@ -92,6 +92,9 @@ namespace DotNetRpg.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Damage")
                         .HasColumnType("int");
 
@@ -99,12 +102,10 @@ namespace DotNetRpg.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("characterId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("characterId");
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
 
                     b.ToTable("Weapons");
                 });
@@ -120,13 +121,19 @@ namespace DotNetRpg.Migrations
 
             modelBuilder.Entity("DotNetRpg.Models.Weapon", b =>
                 {
-                    b.HasOne("DotNetRpg.Models.Character", "character")
-                        .WithMany()
-                        .HasForeignKey("characterId")
+                    b.HasOne("DotNetRpg.Models.Character", "Character")
+                        .WithOne("Weapon")
+                        .HasForeignKey("DotNetRpg.Models.Weapon", "CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("character");
+                    b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("DotNetRpg.Models.Character", b =>
+                {
+                    b.Navigation("Weapon")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DotNetRpg.Models.User", b =>
