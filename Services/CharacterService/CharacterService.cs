@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -78,6 +78,8 @@ namespace DotNetRpg.Services.CharacterService
         {
             var response = new ServiceResponse<List<GetCharacterDto>>();
             var dbCharacter = await _context.Characters
+                .Include(c => c.Weapon)
+                .Include(c => c.Skills)
                 .Where(c => c.User.Id == GetUserId())
                 .ToListAsync();
             response.Data = dbCharacter.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
